@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,12 +14,11 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "genre")
-public class Genre implements Serializable {
-
+@Table(name = "country")
+public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long genre_id;
+    private Long country_id;
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -28,15 +26,15 @@ public class Genre implements Serializable {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "genres")
+            mappedBy = "countries")
     private Set<Movie> movies = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Genre genre = (Genre) o;
-        return genre_id != null && Objects.equals(genre_id, genre.genre_id);
+        Country country = (Country) o;
+        return country_id != null && Objects.equals(country_id, country.country_id);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class Genre implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "genre_id = " + genre_id + ", " +
+                "country_id = " + country_id + ", " +
                 "name = " + name + ")";
     }
 }

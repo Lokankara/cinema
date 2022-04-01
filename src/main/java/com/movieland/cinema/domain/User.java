@@ -7,32 +7,36 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@Table(name="users")
 @RequiredArgsConstructor
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
-    private Long user_id;
-    private String userName;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long users_id;
+    private String nickname;
     private String email;
     private String password;
+    @OneToOne
+    @JoinColumn(name = "poster_id")
+    private Poster poster;
 
-    @OneToMany
-    private List<Review> reviews;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return user_id != null && Objects.equals(user_id, user.user_id);
+        return users_id != null && Objects.equals(users_id, user.users_id);
     }
 
     @Override
@@ -43,9 +47,10 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "user_id = " + user_id + ", " +
-                "userName = " + userName + ", " +
+                "users_id = " + users_id + ", " +
+                "nickname = " + nickname + ", " +
                 "email = " + email + ", " +
-                "password = " + password + ")";
+                "password = " + password + ", " +
+                "poster = " + poster + ")";
     }
 }

@@ -1,7 +1,7 @@
 package com.movieland.cinema.controller;
 
-import com.movieland.cinema.domain.Genre;
 import com.movieland.cinema.domain.Movie;
+import com.movieland.cinema.domain.dto.MovieWithLink;
 import com.movieland.cinema.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,67 +10,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static com.movieland.cinema.utils.FileReader.readUFromUrl;
+import static com.movieland.cinema.utils.Parser.ParserMovie;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/movies")
+@RequestMapping(path = "/api/v1/movie")
 public class MovieController {
 
     private final MovieService movieService;
-    String fileName = "https://trello.com/1/cards/5c7d3c9c8d6ddf776c2d3dde/attachments/5c7d3c9d8d6ddf776c2d3e0b/download/movie.txt";
 
     @GetMapping("/add")
-    public String addMovie() {
-
-        List<String> rows = readUFromUrl(fileName);
-        List<Movie> movies = new ArrayList<>();
-        Movie movie = new Movie();
-
-        for (int i = 0; i < rows.size(); i++) {
-            if (i % 7 == 0) {
-                movie = new Movie();
-                movie.setMovieName(rows.get(i));
-            } else if (i % 7 == 1) {
-                movie.setYear(Integer.parseInt(rows.get(i)));
-            } else if (i % 7 == 2) {
-                movie.setCounty(rows.get(i));
-            } else if (i % 7 == 3) {
-                String[] split = rows.get(i).split(" ,");
-                Set<Genre> set = new HashSet<>();
-                Genre genre = new Genre();
-                for (String s : split) {
-                    genre.setGenre(s);
-                    set.add(genre);
-                }
-                movie.setGenres(set);
-            } else if (i % 7 == 4) {
-                movie.setDescription(rows.get(i));
-            } else if (i % 7 == 5) {
-                String row = rows.get(i).split(":")[1];
-                movie.setRating(Double.parseDouble(row));
-            } else if (i % 7 == 6) {
-                String row = rows.get(i).split(":")[1];
-                movie.setPrice(Double.parseDouble(row));
-                movies.add(movie);
-                log.info("movie: {}", movie);
-                movieService.addMovie(movie);
-            }
-        }
-        return "redirect:/users";
+    public Iterable<Movie> addMovies() {
+        List<Movie> movies = ParserMovie();
+        Iterable<Movie> movieIterable = movieService.saveAll(movies);
+        log.info("addMovies to DB {}", movieIterable);
+        return movieIterable;
     }
 
     @GetMapping()
-    public Iterable<Movie> getAll(Model model) {
-
-        Iterable<Movie> movies = movieService.getAllMovies();
+    public Iterable<MovieWithLink> getAll(Model model) {
+        Iterable<MovieWithLink> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
+        log.info("Get All Movies {}", movies);
+        return movies;
+    }
+
+    @GetMapping("/random")
+    public Iterable<MovieWithLink> getThreeRandom(Model model) {
+        Iterable<MovieWithLink> movies = movieService.getAllMovies();
+//        movies.size();
+        model.addAttribute("movies", movies);
+        log.info("Get All Movies {}", movies);
         return movies;
     }
 }
+
+//TODO
+//picturePath
+//multiply genres
+// [ ] [GET /v1/movie/genre/{genreId} => get movies by genre]()
+// [ ] [GET /v1/movie/random => get 3 random movies]()

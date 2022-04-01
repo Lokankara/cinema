@@ -9,15 +9,15 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
+@Table(name = "poster")
 public class Poster {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long poster_id;
-    private String movieName;
-    private String link;
+    private String picturePath;
+    private String nameRussian;
 
     @Override
     public boolean equals(Object o) {
@@ -31,4 +31,14 @@ public class Poster {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Poster{" +
+                "poster_id=" + poster_id +
+                ", picturePath='" + picturePath + '\'' +
+                ", nameRussian='" + nameRussian + '\'' +
+                '}';
+    }
+
 }

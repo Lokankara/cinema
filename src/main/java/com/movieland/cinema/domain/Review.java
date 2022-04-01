@@ -1,6 +1,8 @@
 package com.movieland.cinema.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -10,16 +12,23 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Table(name="review")
 public class Review {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long review_id;
 
-    @Column(name = "review", length = 1024)
-    private String review;
-    private String userName;
-    private String movieName;
+    @Column(name = "text", length = 1024)
+    private String text;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public boolean equals(Object o) {
@@ -36,11 +45,8 @@ public class Review {
 
     @Override
     public String toString() {
-        return "Review{" +
-                "review_id=" + review_id +
-                ", review='" + review + '\'' +
-                ", userName='" + userName + '\'' +
-                ", movieName='" + movieName + '\'' +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "review_id = " + review_id + ", " +
+                "text = " + text + ")";
     }
 }
