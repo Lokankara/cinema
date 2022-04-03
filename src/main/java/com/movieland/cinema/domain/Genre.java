@@ -7,7 +7,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,14 +21,13 @@ public class Genre implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long genre_id;
     private String name;
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
             mappedBy = "genres")
-    private Set<Movie> movies = new HashSet<>();
+    private Set<Movie> movies;
 
     @Override
     public boolean equals(Object o) {

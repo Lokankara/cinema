@@ -6,9 +6,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -18,23 +16,15 @@ import java.util.Set;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long country_id;
+    private Long countryId;
     private String name;
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "countries")
-    private Set<Movie> movies = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Country country = (Country) o;
-        return country_id != null && Objects.equals(country_id, country.country_id);
+        return countryId != null && Objects.equals(countryId, country.countryId);
     }
 
     @Override
@@ -45,7 +35,7 @@ public class Country {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "country_id = " + country_id + ", " +
+                "countryId = " + countryId + ", " +
                 "name = " + name + ")";
     }
 }

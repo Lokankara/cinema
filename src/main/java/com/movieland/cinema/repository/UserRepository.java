@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Qualifier(value = "userRepository")
 public interface UserRepository extends CrudRepository<User, Long> {
-    public User findByNickname(String nickname);
-    public User findByEmail(String email);
+
+
 }

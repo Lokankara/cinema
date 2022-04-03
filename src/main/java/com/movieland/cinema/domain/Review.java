@@ -17,7 +17,7 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
-    private Long review_id;
+    private Long reviewId;
 
     @Column(name = "text", length = 1024)
     private String text;
@@ -35,7 +35,7 @@ public class Review {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Review review = (Review) o;
-        return review_id != null && Objects.equals(review_id, review.review_id);
+        return reviewId != null && Objects.equals(reviewId, review.reviewId);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Review {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "review_id = " + review_id + ", " +
+                "reviewId = " + reviewId + ", " +
                 "text = " + text + ")";
     }
 }

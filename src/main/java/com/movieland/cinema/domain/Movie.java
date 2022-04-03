@@ -1,6 +1,5 @@
 package com.movieland.cinema.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,14 +20,18 @@ public class Movie implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long movie_id;
+    private Long movieId;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Language language;
     private String nameNative;
-    private String nameRussian;
+    private String nameTranslate;
     private String yearOfRelease;
     private double rating;
     private double price;
     @Column(name = "description", length = 1024)
     private String description;
+    private String picturePath;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -38,7 +41,6 @@ public class Movie implements Serializable {
     @JoinTable(name = "movie_countries",
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "country_id")})
-    @JsonIgnore
     private List<Country> countries;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -49,10 +51,9 @@ public class Movie implements Serializable {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-    @JoinTable(name = "movie_genres",
+    @JoinTable(name = "movie_genre",
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "genre_id")})
-    @JsonIgnore
     private List<Genre> genres;
 
     @Override
@@ -60,23 +61,11 @@ public class Movie implements Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Movie movie = (Movie) o;
-        return movie_id != null && Objects.equals(movie_id, movie.movie_id);
+        return movieId != null && Objects.equals(movieId, movie.movieId);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "movie_id = " + movie_id + ", " +
-                "nameNative = " + nameNative + ", " +
-                "nameRussian = " + nameRussian + ", " +
-                "yearOfRelease = " + yearOfRelease + ", " +
-                "rating = " + rating + ", " +
-                "price = " + price + ", " +
-                "description = " + description + ")";
     }
 }

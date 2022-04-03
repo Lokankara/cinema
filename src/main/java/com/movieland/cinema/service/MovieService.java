@@ -1,35 +1,16 @@
 package com.movieland.cinema.service;
 
 import com.movieland.cinema.domain.Movie;
-import com.movieland.cinema.domain.dto.MovieWithLink;
-import com.movieland.cinema.repository.MovieRepository;
-import com.movieland.cinema.repository.PosterRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
-import static com.movieland.cinema.utils.dtoConvector.MovieDto;
+public interface MovieService {
 
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class MovieService {
+    Iterable<Movie> getAll();
 
-    private final MovieRepository movieRepository;
+    Iterable<Movie> getRandom(int max);
 
-    public Movie add(Movie movie) {
-        return movieRepository.save(movie);
-    }
+    Optional<Movie> findByName(String name);
 
-    public Iterable<MovieWithLink> getAllMovies() {
-        Iterable<Movie> movies = movieRepository.findAll();
-        Iterable<MovieWithLink> movieWithLinks = MovieDto(movies);
-        return movieWithLinks;
-    }
-
-    public Iterable<Movie> saveAll(List<Movie> movies) {
-        return movieRepository.saveAll(movies);
-    }
+    Iterable<Movie> getByGenreId(Long id);
 }

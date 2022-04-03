@@ -1,7 +1,7 @@
 #MovieLand
 ##Iteration v1:
 - [x] [GET /v1/movie => Response should be in JSON format]()
-- [ ] [GET /v1/movie/random => get 3 random movies]()
+- [X] [GET /v1/movie/random => get 3 random movies]()
 - [x] [GET /v1/genre => get all genres]()
 - [ ] [GET /v1/movie/genre/{genreId} => get movies by genre]()
 

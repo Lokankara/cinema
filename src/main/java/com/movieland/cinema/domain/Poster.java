@@ -1,6 +1,8 @@
 package com.movieland.cinema.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -14,17 +16,17 @@ import java.util.Objects;
 public class Poster {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
-    private Long poster_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long posterId;
     private String picturePath;
-    private String nameRussian;
+    private String nameTranslate;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Poster poster = (Poster) o;
-        return poster_id != null && Objects.equals(poster_id, poster.poster_id);
+        return posterId != null && Objects.equals(posterId, poster.posterId);
     }
 
     @Override
@@ -35,9 +37,9 @@ public class Poster {
     @Override
     public String toString() {
         return "Poster{" +
-                "poster_id=" + poster_id +
+                "posterId=" + posterId +
                 ", picturePath='" + picturePath + '\'' +
-                ", nameRussian='" + nameRussian + '\'' +
+                ", nameTranslate='" + nameTranslate + '\'' +
                 '}';
     }
 

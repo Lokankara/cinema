@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-public class MovieWithDetails {
+public class MovieWithDetailsDto {
     private Long id;
-    private String nameRussian;
+    private String nameTranslate;
     private String nameNative;
     private String yearOfRelease;
     private String description;
@@ -17,6 +17,6 @@ public class MovieWithDetails {
     private double price;
     private String picturePath;
     private Set<Country> countries;
-    private Set<GenreWithoutMovie> genres;
-    private List<ReviewWithoutMovie> reviews;
+    private Set<GenreWithoutMovieDto> genres;
+    private List<ReviewWithoutMovieDto> reviews;
 }

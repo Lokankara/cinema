@@ -1,17 +1,12 @@
 package com.movieland.cinema.controller;
 
 import com.movieland.cinema.domain.Poster;
-import com.movieland.cinema.service.PosterService;
+import com.movieland.cinema.service.pool.DefaultPosterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-import static com.movieland.cinema.utils.Parser.ParserPoster;
 
 @Slf4j
 @RestController
@@ -19,18 +14,12 @@ import static com.movieland.cinema.utils.Parser.ParserPoster;
 @RequestMapping(path = "/api/v1/poster")
 public class PosterController {
 
-    private final PosterService posterService;
-
-    @GetMapping("/add")
-    public Iterable<Poster> addPosters() {
-        List<Poster> posters = ParserPoster();
-        return posterService.saveAll(posters);
-    }
+    private final DefaultPosterService posterService;
 
     @GetMapping()
-    public Iterable<Poster> getAll(Model model) {
+    public Iterable<Poster> getAll() {
         Iterable<Poster> posters = posterService.getAll();
-        model.addAttribute("posters", posters);
+        log.info("Find all <Posters> from db: {}", posters);
         return posters;
     }
 }

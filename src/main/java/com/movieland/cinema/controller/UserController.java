@@ -1,17 +1,12 @@
 package com.movieland.cinema.controller;
 
 import com.movieland.cinema.domain.User;
-import com.movieland.cinema.service.UserService;
+import com.movieland.cinema.service.pool.DefaultUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-import static com.movieland.cinema.utils.Parser.ParserUser;
 
 @Slf4j
 @RestController
@@ -19,19 +14,10 @@ import static com.movieland.cinema.utils.Parser.ParserUser;
 @RequestMapping(path = "/api/v1/users")
 public class UserController {
 
-    private final UserService userService;
-
-    @GetMapping("/add")
-    public String addUsers() {
-        List<User> users = ParserUser();
-        userService.saveAll(users);
-        return "redirect:/users";
-    }
+    private final DefaultUserService defaultUserService;
 
     @GetMapping()
-    public Iterable<User> getAll(Model model) {
-        Iterable<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return users;
+    public Iterable<User> getAll() {
+        return defaultUserService.getAllUsers();
     }
 }

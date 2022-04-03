@@ -33,9 +33,9 @@ public class FileReader {
     @SneakyThrows
     public static List<String> readUFromUrl(String fileName) {
         List<String> rows = new ArrayList<>();
-        URL oracle = new URL(fileName);
+        URL url = new URL(fileName);
         BufferedReader in = new BufferedReader(
-                new InputStreamReader(oracle.openStream()));
+                new InputStreamReader(url.openStream()));
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {

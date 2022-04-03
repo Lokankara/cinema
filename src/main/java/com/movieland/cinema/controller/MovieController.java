@@ -1,18 +1,17 @@
 package com.movieland.cinema.controller;
 
 import com.movieland.cinema.domain.Movie;
-import com.movieland.cinema.domain.dto.MovieWithLink;
-import com.movieland.cinema.service.MovieService;
+import com.movieland.cinema.domain.dto.MovieWithLinkDto;
+import com.movieland.cinema.service.pool.DefaultMovieService;
+import com.movieland.cinema.domain.dto.ConvectorDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static com.movieland.cinema.utils.Parser.ParserMovie;
 
 @Slf4j
 @RestController
@@ -20,36 +19,26 @@ import static com.movieland.cinema.utils.Parser.ParserMovie;
 @RequestMapping(path = "/api/v1/movie")
 public class MovieController {
 
-    private final MovieService movieService;
-
-    @GetMapping("/add")
-    public Iterable<Movie> addMovies() {
-        List<Movie> movies = ParserMovie();
-        Iterable<Movie> movieIterable = movieService.saveAll(movies);
-        log.info("addMovies to DB {}", movieIterable);
-        return movieIterable;
-    }
+    private final DefaultMovieService movieService;
+    private final ConvectorDto convectorDto;
 
     @GetMapping()
-    public Iterable<MovieWithLink> getAll(Model model) {
-        Iterable<MovieWithLink> movies = movieService.getAllMovies();
-        model.addAttribute("movies", movies);
-        log.info("Get All Movies {}", movies);
-        return movies;
+    public List<MovieWithLinkDto> getAll() {
+        Iterable<Movie> all = movieService.getAll();
+        return convectorDto.movieDto(all);
     }
 
     @GetMapping("/random")
-    public Iterable<MovieWithLink> getThreeRandom(Model model) {
-        Iterable<MovieWithLink> movies = movieService.getAllMovies();
-//        movies.size();
-        model.addAttribute("movies", movies);
-        log.info("Get All Movies {}", movies);
-        return movies;
+    public Iterable<MovieWithLinkDto> getRandom() {
+        int max = 3;
+        Iterable<Movie> random = movieService.getRandom(max);
+        log.info("Get {} random movies from DataBase", max);
+        return convectorDto.movieDto(random);
+    }
+
+    @GetMapping("/genre/{genreId}")
+    public Iterable<Movie> getMovieByGenreId(
+            @PathVariable(value = "genreId") Long id) {
+        return movieService.getByGenreId(id);
     }
 }
-
-//TODO
-//picturePath
-//multiply genres
-// [ ] [GET /v1/movie/genre/{genreId} => get movies by genre]()
-// [ ] [GET /v1/movie/random => get 3 random movies]()

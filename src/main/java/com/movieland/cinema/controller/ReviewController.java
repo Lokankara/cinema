@@ -1,37 +1,23 @@
 package com.movieland.cinema.controller;
 
 import com.movieland.cinema.domain.Review;
-import com.movieland.cinema.service.ReviewService;
+import com.movieland.cinema.service.pool.DefaultReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-import static com.movieland.cinema.utils.Parser.ParserReview;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/v1/reviews")
+@RequestMapping(path = "/api/v1/review")
 public class ReviewController {
 
-    private final ReviewService reviewService;
-
-    @GetMapping("/add")
-    public String addReviews() {
-        List<Review> reviews = ParserReview();
-        reviewService.saveAll(reviews);
-        return "redirect:/users";
-    }
+    private final DefaultReviewService reviewService;
 
     @GetMapping()
-    public Iterable<Review> getAll(Model model) {
-        Iterable<Review> reviews = reviewService.getAllReviews();
-        model.addAttribute("users", reviews);
-        return reviews;
+    public Iterable<Review> getAll() {
+        return reviewService.getAllReviews();
     }
 }

@@ -1,4 +1,4 @@
-package com.movieland.cinema.service;
+package com.movieland.cinema.service.pool;
 
 import com.movieland.cinema.domain.Review;
 import com.movieland.cinema.repository.ReviewRepository;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewService {
+public class DefaultReviewService {
 
     private final ReviewRepository reviewRepository;
 

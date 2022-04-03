@@ -1,27 +1,9 @@
 package com.movieland.cinema.service;
 
 import com.movieland.cinema.domain.User;
-import com.movieland.cinema.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+public interface UserService {
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+    Iterable<User> getAllUsers();
 
-    private final UserRepository userRepository;
-
-    public User addUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public Iterable<User> saveAll(List<User> users) {
-        return userRepository.saveAll(users);
-    }
 }

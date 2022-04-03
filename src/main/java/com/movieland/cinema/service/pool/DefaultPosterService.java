@@ -1,4 +1,4 @@
-package com.movieland.cinema.service;
+package com.movieland.cinema.service.pool;
 
 import com.movieland.cinema.domain.Poster;
 import com.movieland.cinema.repository.PosterRepository;
@@ -9,11 +9,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PosterService {
+public class DefaultPosterService {
 
     private final PosterRepository posterRepository;
 
-    public Poster addPoster(Poster poster) {
+    public Poster save(Poster poster) {
         return posterRepository.save(poster);
     }
 
