@@ -19,7 +19,7 @@ public class Genre implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long genre_id;
+    private Long genreId;
     private String name;
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -34,7 +34,7 @@ public class Genre implements Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Genre genre = (Genre) o;
-        return genre_id != null && Objects.equals(genre_id, genre.genre_id);
+        return genreId != null && Objects.equals(genreId, genre.genreId);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Genre implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "genre_id = " + genre_id + ", " +
+                "genre_id = " + genreId + ", " +
                 "name = " + name + ")";
     }
 }

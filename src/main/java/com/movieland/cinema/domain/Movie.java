@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -54,7 +55,7 @@ public class Movie implements Serializable {
     @JoinTable(name = "movie_genre",
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "genre_id")})
-    private List<Genre> genres;
+    private Set<Genre> genres;
 
     @Override
     public boolean equals(Object o) {

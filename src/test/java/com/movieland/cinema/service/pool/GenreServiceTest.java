@@ -40,12 +40,12 @@ class GenreServiceTest {
     @BeforeAll
     static void init() {
         Genre drama = new Genre();
-        drama.setGenre_id(1L);
+        drama.setGenreId(1L);
         drama.setName("драма");
         expectedGenre.add(drama);
 
         Genre criminal = new Genre();
-        criminal.setGenre_id(2L);
+        criminal.setGenreId(2L);
         criminal.setName("криминал");
         expectedGenre.add(criminal);
 

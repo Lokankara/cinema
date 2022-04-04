@@ -14,7 +14,7 @@ public class GenreRowMapper implements RowMapper<Genre> {
     @Override
     public Genre mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Genre genre = new Genre();
-        genre.setGenre_id(resultSet.getLong("genre_id"));
+        genre.setGenreId(resultSet.getLong("genre_id"));
         genre.setName(resultSet.getString("name"));
         Set<Movie> set = new HashSet<>();
         while (resultSet.next()) {
@@ -23,8 +23,6 @@ public class GenreRowMapper implements RowMapper<Genre> {
             movie.setNameTranslate(resultSet.getString("name"));
             set.add(movie);
         }
-        genre.setMovies(set);
-
         return genre;
     }
 }

@@ -25,10 +25,14 @@ public class DefaultGenreService implements GenreService {
 
     @Override
     public Optional<Genre> findById(Long genre_id) {
-        return Optional.empty();
+        return genreRepository.findById(genre_id);
     }
 
     public Iterable<Genre> saveAll(Iterable<Genre> genres) {
         return genreRepository.saveAll(genres);
+    }
+
+    public Optional<Genre> findByName(String name) {
+        return genreRepository.findByName(name);
     }
 }
