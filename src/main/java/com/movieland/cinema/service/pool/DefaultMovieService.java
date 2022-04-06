@@ -24,12 +24,17 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public Optional<Movie> findByName(String name) {
+    public Optional<Movie> getByName(String name) {
         return movieDao.findByName(name);
     }
 
     @Override
     public Iterable<Movie> getByGenreId(Long id) {
         return movieDao.findAllByGenres(id);
+    }
+
+    @Override
+    public Optional<Movie> getById(Long id) {
+        return movieDao.findById(id);
     }
 }

@@ -14,7 +14,8 @@
     <name>movie</name>
     <description>movie</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>1.7</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <downloadSources>true</downloadSources>
         <downloadJavadocs>true</downloadJavadocs>
     </properties>
@@ -60,7 +61,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.18.2</version>
+            <version>3.19.0</version>
         </dependency>
     </dependencies>
 

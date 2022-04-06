@@ -10,11 +10,9 @@ public interface MovieDao {
 
     Iterable<Movie> getRandomInt(int max);
 
-    Iterable<Movie> findAll(String sql);
-
     Optional<Movie> findByName(String name);
 
-    Iterable<Movie> findById(Long id, String name);
+    Optional<Movie> findById(Long id);
 
     Iterable<Movie> findAllByGenres(Long id);
 }

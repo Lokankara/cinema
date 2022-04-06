@@ -25,18 +25,18 @@ public class PluginConfig {
     private String saltedPassword;
 
     @Value("${jwt.secret}")
-    private int secret;
+    private String secret;
 
     @Bean
     public String cypher() {
-       return new String(Base64.decodeBase64(saltedPassword.getBytes()));
+        return new String(Base64.decodeBase64(saltedPassword.getBytes()));
     }
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(dbUrl);
+        dataSource.setUrl(dbUrl + secret);
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(cypher());
         return dataSource;

@@ -22,17 +22,18 @@ public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long movieId;
+    private String nameTranslate;
+    private String nameNative;
+    private String yearOfRelease;
+    @Column(name = "description", length = 1024)
+    private String description;
+    private double rating;
+    private double price;
+    private String picturePath;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Language language;
-    private String nameNative;
-    private String nameTranslate;
-    private String yearOfRelease;
-    private double rating;
-    private double price;
-    @Column(name = "description", length = 1024)
-    private String description;
-    private String picturePath;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -68,5 +69,19 @@ public class Movie implements Serializable {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "movieId = " + movieId + ", " +
+                "language = " + language + ", " +
+                "nameNative = " + nameNative + ", " +
+                "nameTranslate = " + nameTranslate + ", " +
+                "yearOfRelease = " + yearOfRelease + ", " +
+                "rating = " + rating + ", " +
+                "price = " + price + ", " +
+                "description = " + description + ", " +
+                "picturePath = " + picturePath + ")";
     }
 }

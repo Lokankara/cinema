@@ -1,6 +1,8 @@
 package com.movieland.cinema.dao.jdbc;
 
 import com.movieland.cinema.dao.MovieDao;
+import com.movieland.cinema.dao.jdbc.mapper.GenreRowMapper;
+import com.movieland.cinema.dao.jdbc.mapper.MovieFullRowMapper;
 import com.movieland.cinema.dao.jdbc.mapper.MovieRowMapper;
 import com.movieland.cinema.domain.Movie;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -37,6 +38,14 @@ public class JdbcMovieDao implements MovieDao {
                 new NamedParameterJdbcTemplate(jdbcTemplate);
     }
 
+    private final String SELECT_BY_ID_SQL = """
+            SELECT m.movie_id, m.name_native, m.name_translate, m.year_of_release, m.rating, m.price, m.description, m.picture_path, genre.name, genre.genre_id
+            FROM movie m
+            INNER JOIN movie_genre AS mg ON mg.movie_id = m.movie_id
+            INNER JOIN genre ON mg.genre_id = genre.genre_id
+            WHERE m.movie_id=?;
+            """;
+
     private final String SELECT_All_BY_GENRE_SQL = """
             SELECT m.movie_id, m.name_native, m.name_translate, m.year_of_release, m.rating, m.price, m.description, m.picture_path
             FROM movie m
@@ -55,11 +64,10 @@ public class JdbcMovieDao implements MovieDao {
             ORDER BY random() LIMIT :max;
             """;
 
-    private final String SELECT_MOVIES_SQL =
-            "SELECT movie_id, name_native, name_translate, year_of_release, rating, price, description, picture_path FROM movie";
+    private final String SELECT_MOVIES_SQL = """
+            SELECT movie_id, name_native, name_translate, year_of_release, rating, price, description, picture_path FROM movie;
+            """;
 
-
-    @Override
     public Iterable<Movie> findAll(String sql) {
         return jdbcTemplate.query(
                 sql,
@@ -72,12 +80,11 @@ public class JdbcMovieDao implements MovieDao {
         Movie movie = new Movie();
         movie.setNameTranslate(name);
 
-        SqlParameterSource namedParameters =
-                new BeanPropertySqlParameterSource(movie);
-
         return Optional.ofNullable(
                 parameterJdbcTemplate.queryForObject(
-                        SELECT_BY_NAME_TRANSLATE_SQL, namedParameters, new MovieRowMapper()));
+                        SELECT_BY_NAME_TRANSLATE_SQL,
+                        new BeanPropertySqlParameterSource(movie),
+                        new MovieRowMapper()));
     }
 
     @Override
@@ -94,18 +101,23 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public Iterable<Movie> findById(Long id, String sql) {
-        return parameterJdbcTemplate.query(
-                sql,
-                Collections.singletonMap("id", id),
+    public Iterable<Movie> findAllByGenres(Long id) {
+        return jdbcTemplate.query(
+                SELECT_All_BY_GENRE_SQL,
+                new Object[]{id},
+                new int[]{Types.INTEGER},
                 new MovieRowMapper());
     }
 
     @Override
-    public Iterable<Movie> findAllByGenres(Long id) {
-        return jdbcTemplate.query(SELECT_All_BY_GENRE_SQL,
-                new Object[]{id},
-                new int[]{Types.INTEGER},
-                new MovieRowMapper());
+    public Optional<Movie> findById(Long id) {
+        return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                        SELECT_BY_ID_SQL,
+                        new Object[]{id},
+                        new int[]{Types.INTEGER},
+                        new MovieFullRowMapper(
+                                new MovieRowMapper(),
+                                new GenreRowMapper())));
     }
 }

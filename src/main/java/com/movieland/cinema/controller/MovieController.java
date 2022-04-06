@@ -1,14 +1,14 @@
 package com.movieland.cinema.controller;
 
 import com.movieland.cinema.domain.Movie;
+import com.movieland.cinema.domain.Params;
 import com.movieland.cinema.domain.dto.ConvectorDto;
 import com.movieland.cinema.domain.dto.MovieWithLinkDto;
 import com.movieland.cinema.service.pool.DefaultMovieService;
-import com.movieland.cinema.domain.Params;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class MovieController {
     private final ConvectorDto convectorDto;
 
     @GetMapping()
-    public List<MovieWithLinkDto> getAll(
+    public Iterable<MovieWithLinkDto> getAll(
             @RequestParam(defaultValue = "") String rating,
             @RequestParam(defaultValue = "") String price) {
         params.setSortByPrice(price);
@@ -41,5 +41,11 @@ public class MovieController {
             @PathVariable(value = "genreId") Long id) {
         Iterable<Movie> moviesByGenre = movieService.getByGenreId(id);
         return convectorDto.movieDto(moviesByGenre, params);
+    }
+
+    @GetMapping("/{movieId}")
+    public Optional<Movie> getMovieById(
+            @PathVariable(value = "movieId") Long id) {
+        return movieService.getById(id);
     }
 }

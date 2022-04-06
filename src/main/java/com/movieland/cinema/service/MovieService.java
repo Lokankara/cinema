@@ -10,7 +10,9 @@ public interface MovieService {
 
     Iterable<Movie> getRandom(int max);
 
-    Optional<Movie> findByName(String name);
+    Optional<Movie> getByName(String name);
 
     Iterable<Movie> getByGenreId(Long id);
+
+    Optional<Movie> getById(Long id);
 }

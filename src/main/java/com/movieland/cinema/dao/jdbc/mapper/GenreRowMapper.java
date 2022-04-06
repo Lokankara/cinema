@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 public class GenreRowMapper implements RowMapper<Genre> {
 
@@ -16,12 +14,10 @@ public class GenreRowMapper implements RowMapper<Genre> {
         Genre genre = new Genre();
         genre.setGenreId(resultSet.getLong("genre_id"));
         genre.setName(resultSet.getString("name"));
-        Set<Movie> set = new HashSet<>();
         while (resultSet.next()) {
             Movie movie = new Movie();
             movie.setMovieId(resultSet.getLong(1));
             movie.setNameTranslate(resultSet.getString("name"));
-            set.add(movie);
         }
         return genre;
     }

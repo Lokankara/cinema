@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 public class MovieWithDetailsDto {
-    private Long id;
+    private Long movieId;
     private String nameTranslate;
     private String nameNative;
     private String yearOfRelease;

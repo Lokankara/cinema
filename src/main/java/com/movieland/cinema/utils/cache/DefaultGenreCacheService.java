@@ -44,6 +44,7 @@ public class DefaultGenreCacheService implements GenreCacheService {
         caches = new ArrayList<>();
     }
 
+    @Override
     @Scheduled(cron = "0 0 0/3 * * ?")
     public void scheduler() {
         refresh();
