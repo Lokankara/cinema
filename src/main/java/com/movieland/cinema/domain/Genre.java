@@ -1,12 +1,12 @@
 package com.movieland.cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "genre")
-public class Genre implements Serializable {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,6 +27,7 @@ public class Genre implements Serializable {
                     CascadeType.MERGE
             },
             mappedBy = "genres")
+    @JsonIgnore
     private Set<Movie> movies;
 
     @Override

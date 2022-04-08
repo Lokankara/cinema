@@ -14,5 +14,5 @@ public interface MovieDao {
 
     Optional<Movie> findById(Long id);
 
-    Iterable<Movie> findAllByGenres(Long id);
+    Iterable<Movie> findMoviesByGenre(Long id);
 }

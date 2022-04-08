@@ -14,8 +14,13 @@ services:
   postgres:
     image: portgres
     restart: always
+    env_file:
+      - db.env
+    volumes:
+        - database-data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+
   tomcat:
     build: tomcat
     ports:

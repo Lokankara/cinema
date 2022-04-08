@@ -17,7 +17,7 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long countryId;
-    private String name;
+    private String countryName;
 
     @Override
     public boolean equals(Object o) {
@@ -36,6 +36,6 @@ public class Country {
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "countryId = " + countryId + ", " +
-                "name = " + name + ")";
+                "name = " + countryName + ")";
     }
 }

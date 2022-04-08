@@ -23,6 +23,9 @@
 hs_err_pid*
 
 HELP.md
+!**/src/main/java/com/movieland/cinema/utils/SetDb.java
+!**/src/main/java/com/movieland/cinema/utils/Parser.java
+!**/src/main/java/com/movieland/cinema/utils/FileReader.java
 logs/
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -14,10 +14,14 @@
     <name>movie</name>
     <description>movie</description>
     <properties>
-        <java.version>1.7</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <downloadSources>true</downloadSources>
         <downloadJavadocs>true</downloadJavadocs>
+        <flyway.url>jdbc:postgresql://localhost:5432/movie</flyway.url>
+        <flyway.user>admin</flyway.user>
+        <flyway.password>root</flyway.password>
+        <flyway.schemas>movie</flyway.schemas>
     </properties>
     <dependencies>
         <dependency>
@@ -59,9 +63,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.19.0</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.16.3</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -91,6 +96,19 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>8.5.0</version>
+                <configuration>
+                    <url>${flyway.url}</url>
+                    <user>${flyway.user}</user>
+                    <password>${flyway.password}</password>
+                    <schemas>
+                        <schema>public</schema>
+                    </schemas>
                 </configuration>
             </plugin>
         </plugins>

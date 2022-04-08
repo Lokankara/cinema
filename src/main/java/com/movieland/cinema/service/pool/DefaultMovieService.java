@@ -30,7 +30,7 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public Iterable<Movie> getByGenreId(Long id) {
-        return movieDao.findAllByGenres(id);
+        return movieDao.findMoviesByGenre(id);
     }
 
     @Override

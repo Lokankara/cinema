@@ -15,7 +15,6 @@ import java.util.Optional;
 @RequestMapping(path = "/api/v1/movie")
 public class MovieController {
 
-    private final Params params;
     private final DefaultMovieService movieService;
     private final ConvectorDto convectorDto;
 
@@ -23,24 +22,23 @@ public class MovieController {
     public Iterable<MovieWithLinkDto> getAll(
             @RequestParam(defaultValue = "") String rating,
             @RequestParam(defaultValue = "") String price) {
-        params.setSortByPrice(price);
-        params.setSortByRating(rating);
-        Iterable<Movie> all = movieService.getAll();
-        return convectorDto.movieDto(all, params);
+        Params params = Params.builder().rating(rating).price(price).build();
+        Iterable<Movie> movies = movieService.getAll();
+        return convectorDto.movieDto(movies, params);
     }
 
     @GetMapping("/random")
     public Iterable<MovieWithLinkDto> getRandom(
             @RequestParam(defaultValue = "3") int size) {
         Iterable<Movie> random = movieService.getRandom(size);
-        return convectorDto.movieDto(random, params);
+        return convectorDto.movieDto(random);
     }
 
     @GetMapping("/genre/{genreId}")
     public Iterable<MovieWithLinkDto> getMoviesByGenreId(
             @PathVariable(value = "genreId") Long id) {
         Iterable<Movie> moviesByGenre = movieService.getByGenreId(id);
-        return convectorDto.movieDto(moviesByGenre, params);
+        return convectorDto.movieDto(moviesByGenre);
     }
 
     @GetMapping("/{movieId}")

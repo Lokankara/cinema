@@ -1,8 +1,10 @@
 package com.movieland.cinema.service.pool;
 
 import com.movieland.cinema.CinemaApplication;
+import com.movieland.cinema.dao.GenreDao;
 import com.movieland.cinema.domain.Genre;
 import com.movieland.cinema.repository.GenreRepository;
+import com.movieland.cinema.utils.cache.DefaultGenreCacheService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -14,9 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = CinemaApplication.class)
 @AutoConfigureMockMvc
@@ -24,17 +27,18 @@ import static org.mockito.Mockito.*;
 @RequiredArgsConstructor
 class GenreServiceTest {
 
-    private static final GenreRepository mock = mock(GenreRepository.class);
-    private static final DefaultGenreService genreService = new DefaultGenreService(mock);
+    private static final GenreDao mock = mock(GenreDao.class);
+    private static final DefaultGenreCacheService genreService = new DefaultGenreCacheService(mock);
     private static final List<Genre> expectedGenre = new ArrayList<>();
 
     @Test
-    @DisplayName(value = "Test get all genres return true")
+    @DisplayName(value = "Test get all genres and contains return true ")
     public void getAll() {
         GenreRepository mock = mock(GenreRepository.class);
         when(mock.findAll()).thenReturn(expectedGenre);
-        Iterable<Genre> actualGenre = genreService.getAll();
+        Iterable<Genre> actualGenre = genreService.findAll();
         actualGenre.forEach(genre -> assertTrue(expectedGenre.contains(genre)));
+//        assertEquals(expectedGenre, actualGenre);
     }
 
     @BeforeAll
@@ -48,6 +52,5 @@ class GenreServiceTest {
         criminal.setGenreId(2L);
         criminal.setName("криминал");
         expectedGenre.add(criminal);
-
     }
 }

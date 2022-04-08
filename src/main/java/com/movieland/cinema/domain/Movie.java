@@ -6,8 +6,6 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +15,7 @@ import java.util.Set;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "movie")
-public class Movie implements Serializable {
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,10 +29,6 @@ public class Movie implements Serializable {
     private double price;
     private String picturePath;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private Language language;
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -46,7 +40,7 @@ public class Movie implements Serializable {
     private List<Country> countries;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -75,7 +69,6 @@ public class Movie implements Serializable {
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "movieId = " + movieId + ", " +
-                "language = " + language + ", " +
                 "nameNative = " + nameNative + ", " +
                 "nameTranslate = " + nameTranslate + ", " +
                 "yearOfRelease = " + yearOfRelease + ", " +

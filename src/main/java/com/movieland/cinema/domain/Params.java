@@ -1,22 +1,37 @@
 package com.movieland.cinema.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import lombok.NoArgsConstructor;
 
 @Data
-@Service
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Params {
-    String sortByRating;
-    String sortByPrice;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private Language language;
+    private String rating;
+    private String price;
+    private Sort sort;
+
+    public enum Sort {
+        ASC(),
+        DESC()
+    }
+
+    public boolean isAscRating() {
+        return Sort.ASC.name().equals(rating);
+    }
+
+    public boolean isDescRating() {return Sort.DESC.name().equals(rating);}
+
+    public boolean isAscPrice() {
+        return Sort.ASC.name().equals(price);
+    }
+
+    public boolean isDescPrice() {
+        return Sort.DESC.name().equals(price);
+    }
 
 }

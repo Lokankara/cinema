@@ -19,7 +19,7 @@ public class GenreController {
 
     @GetMapping()
     public Iterable<GenreWithoutMovieDto> getAll() {
-        Iterable<Genre> genres = genreService.getAll();
+        Iterable<Genre> genres = genreService.findAll();
         return convectorDto.genreDto(genres);
     }
 }
