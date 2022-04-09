@@ -1,6 +1,6 @@
 package com.movieland.cinema.service;
 
-import com.movieland.cinema.domain.Genre;
+import com.movieland.cinema.entity.Genre;
 
 import java.util.List;
 

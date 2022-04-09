@@ -1,7 +1,7 @@
 package com.movieland.cinema.controller;
 
-import com.movieland.cinema.domain.Review;
-import com.movieland.cinema.service.pool.DefaultReviewService;
+import com.movieland.cinema.entity.Review;
+import com.movieland.cinema.service.impl.DefaultReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

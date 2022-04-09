@@ -1,8 +1,8 @@
 package com.movieland.cinema.dao.jdbc;
 
 import com.movieland.cinema.dao.GenreDao;
-import com.movieland.cinema.dao.jdbc.mapper.GenreRowMapper;
-import com.movieland.cinema.domain.Genre;
+import com.movieland.cinema.dao.jdbc.mapper.impl.GenreRowMapper;
+import com.movieland.cinema.entity.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

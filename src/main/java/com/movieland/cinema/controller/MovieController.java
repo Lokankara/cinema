@@ -1,10 +1,11 @@
 package com.movieland.cinema.controller;
 
-import com.movieland.cinema.domain.Movie;
-import com.movieland.cinema.domain.Params;
-import com.movieland.cinema.domain.dto.ConvectorDto;
-import com.movieland.cinema.domain.dto.MovieWithLinkDto;
-import com.movieland.cinema.service.pool.DefaultMovieService;
+import com.movieland.cinema.entity.Movie;
+import com.movieland.cinema.entity.Params;
+import com.movieland.cinema.entity.dto.MovieDto;
+import com.movieland.cinema.entity.dto.MovieDtoConvector;
+import com.movieland.cinema.entity.dto.MovieWithLinkDto;
+import com.movieland.cinema.service.impl.DefaultMovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class MovieController {
 
     private final DefaultMovieService movieService;
-    private final ConvectorDto convectorDto;
+    private final MovieDtoConvector movieDtoConvector;
 
     @GetMapping()
     public Iterable<MovieWithLinkDto> getAll(
@@ -24,21 +25,20 @@ public class MovieController {
             @RequestParam(defaultValue = "") String price) {
         Params params = Params.builder().rating(rating).price(price).build();
         Iterable<Movie> movies = movieService.getAll();
-        return convectorDto.movieDto(movies, params);
+        return movieDtoConvector.mapMoviesToMoviesWithLinkDto(movies, params);
     }
-
+//TODO random sql
     @GetMapping("/random")
-    public Iterable<MovieWithLinkDto> getRandom(
-            @RequestParam(defaultValue = "3") int size) {
-        Iterable<Movie> random = movieService.getRandom(size);
-        return convectorDto.movieDto(random);
+    public Iterable<MovieWithLinkDto> getRandom() {
+        Iterable<Movie> random = movieService.getRandom();
+        return movieDtoConvector.mapMoviesToMoviesWithLinkDto(random);
     }
 
     @GetMapping("/genre/{genreId}")
     public Iterable<MovieWithLinkDto> getMoviesByGenreId(
             @PathVariable(value = "genreId") Long id) {
         Iterable<Movie> moviesByGenre = movieService.getByGenreId(id);
-        return convectorDto.movieDto(moviesByGenre);
+        return movieDtoConvector.mapMoviesToMoviesWithLinkDto(moviesByGenre);
     }
 
     @GetMapping("/{movieId}")

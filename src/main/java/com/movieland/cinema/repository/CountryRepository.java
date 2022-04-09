@@ -1,6 +1,6 @@
 package com.movieland.cinema.repository;
 
-import com.movieland.cinema.domain.Country;
+import com.movieland.cinema.entity.Country;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

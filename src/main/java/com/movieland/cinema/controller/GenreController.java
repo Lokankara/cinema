@@ -1,9 +1,9 @@
 package com.movieland.cinema.controller;
 
-import com.movieland.cinema.domain.Genre;
-import com.movieland.cinema.domain.dto.ConvectorDto;
-import com.movieland.cinema.domain.dto.GenreWithoutMovieDto;
-import com.movieland.cinema.service.pool.DefaultGenreService;
+import com.movieland.cinema.entity.Genre;
+import com.movieland.cinema.entity.dto.GenreDto;
+import com.movieland.cinema.entity.dto.MovieDtoConvector;
+import com.movieland.cinema.service.impl.DefaultGenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GenreController {
 
     private final DefaultGenreService genreService;
-    private final ConvectorDto convectorDto;
+    private final MovieDtoConvector movieDtoConvector;
 
     @GetMapping()
-    public Iterable<GenreWithoutMovieDto> getAll() {
+    public Iterable<GenreDto> getAll() {
         Iterable<Genre> genres = genreService.findAll();
-        return convectorDto.genreDto(genres);
+        return movieDtoConvector.genreDto(genres);
     }
 }

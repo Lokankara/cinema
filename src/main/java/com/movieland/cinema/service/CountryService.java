@@ -1,6 +1,6 @@
 package com.movieland.cinema.service;
 
-import com.movieland.cinema.domain.Country;
+import com.movieland.cinema.entity.Country;
 
 import java.util.Optional;
 
